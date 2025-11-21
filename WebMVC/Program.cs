@@ -66,11 +66,21 @@ namespace EduPortal.WebMVC
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<EduPortalDbContext>();
-
-                context.Database.EnsureCreated();
-            }
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<EduPortalDbContext>();
+        // Ez a varázslat: Létrehozza az SQL táblákat, ha hiányoznak!
+        context.Database.Migrate();
+        Console.WriteLine("AZ ADATBÁZIS MIGRÁCIÓ SIKERES VOLT!");
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "HIBA TÖRTÉNT A MIGRÁCIÓ KÖZBEN!");
+    }
+}
 
             if (!app.Environment.IsDevelopment())
             {
