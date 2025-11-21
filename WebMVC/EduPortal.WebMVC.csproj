@@ -24,4 +24,10 @@
     <Folder Include="wwwroot\uploads\books\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\images\icons\IconNoAuth.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
