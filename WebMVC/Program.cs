@@ -25,7 +25,13 @@ namespace EduPortal.WebMVC
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<EduPortalDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlServer(connectionString, sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(10),
+                    errorNumbersToAdd: null);
+                }));
 
             builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
             {
@@ -47,7 +53,7 @@ namespace EduPortal.WebMVC
                 options.SlidingExpiration = true;
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SameSite = SameSiteMode.Lax;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
             });
 
             builder.Services.AddScoped<EduPortalDbContext>();
@@ -71,7 +77,6 @@ namespace EduPortal.WebMVC
     try
     {
         var context = services.GetRequiredService<EduPortalDbContext>();
-        // Ez a varázslat: Létrehozza az SQL táblákat, ha hiányoznak!
         context.Database.Migrate();
         Console.WriteLine("AZ ADATBÁZIS MIGRÁCIÓ SIKERES VOLT!");
     }
