@@ -78,12 +78,12 @@ namespace EduPortal.WebMVC
     {
         var context = services.GetRequiredService<EduPortalDbContext>();
         context.Database.Migrate();
-        Console.WriteLine("AZ ADATBÁZIS MIGRÁCIÓ SIKERES VOLT!");
+        Console.WriteLine("Database migrated succesfully!");
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "HIBA TÖRTÉNT A MIGRÁCIÓ KÖZBEN!");
+        logger.LogError(ex, "Error during db migration!");
     }
 }
 

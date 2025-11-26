@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\images\icons\IconNoAuth.svg">
+    <Content Update="wwwroot\images\icons\iconnoauth.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
