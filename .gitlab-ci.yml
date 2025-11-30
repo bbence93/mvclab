@@ -1,0 +1,12 @@
+image: mcr.microsoft.com/dotnet/sdk:7.0 
+
+stages:
+  - test
+
+selenium_test:
+  stage: test
+  script:
+    - echo "Running UI tests on the server..."
+    - dotnet test EduPortal.UITestProject.csproj
+  tags:
+    - docker

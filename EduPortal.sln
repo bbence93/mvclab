@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11206.111 d18.3
+VisualStudioVersion = 18.3.11206.111
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduPortal.Data", "EduPortal.Data\EduPortal.Data.csproj", "{8193231D-897C-426F-A2F7-52A13B5FD069}"
 EndProject
@@ -12,6 +12,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduPortal.WebMVC", "WebMVC\EduPortal.WebMVC.csproj", "{9966F308-3CA8-4F9E-AA97-C37B467EFEBC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduPortal.UITestProject", "EduPortal.UITestProject\EduPortal.UITestProject.csproj", "{B82317FA-3DD4-4538-9193-855904B3F25E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E59A73EE-8036-441D-BDD8-1FD816DFB514}"
+	ProjectSection(SolutionItems) = preProject
+		.gitlab-ci.yml = .gitlab-ci.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
