@@ -1,12 +1,49 @@
-image: mcr.microsoft.com/dotnet/sdk:7.0 
-
 stages:
   - test
+  - deploy
 
+# 1. TESZT: Ennek MINDIG futnia kell (nincs 'rules' szekció)
 selenium_test:
   stage: test
+  # Olyan image-et használunk, amiben már van Chrome, VAGY telepítjük
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  variables:
+    EDUPORTAL_URL: "http://192.168.1.79:8080"
+  before_script:
+    # 1. Csomaglisták frissítése
+    - apt-get update
+    
+    # 2. Csak a letöltéshez szükséges alap eszközök (wget)
+    - apt-get install -y wget
+    
+    # 3. Letöltjük a hivatalos Chrome telepítőt
+    - wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    
+    # 4. A VARÁZSLAT: Telepítjük a letöltött fájlt
+    # Az 'apt' automatikusan felismeri, hogy mi hiányzik (pl. a libasound2t64), és letölti!
+    - apt-get install -y ./google-chrome-stable_current_amd64.deb
+    
+    # 5. Takarítás (nem kötelező, de szép)
+    - rm google-chrome-stable_current_amd64.deb
   script:
-    - echo "Running UI tests on the server..."
-    - dotnet test EduPortal.UITestProject.csproj
+    - echo "🧪 Tesztek futtatása..."
+    - dotnet test EduPortal.UITestProject/EduPortal.UITestProject.csproj
+  tags:
+    - docker
+
+# 2. DEPLOY: Ez csak a MAIN ágon fut
+push_to_github:
+  stage: deploy
+  image: alpine:latest
+  # Ez a sor mondja meg, hogy csak akkor induljon, ha a teszt sikeres volt:
+  needs: ["selenium_test"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  before_script:
+    - apk add --no-cache git
+  script:
+    - echo "🚀 Kód küldése a GitHubra..."
+    - git remote add github https://oauth2:${GITHUB_TOKEN}@github.com/bbence93/mvclab.git
+    - git push --force github HEAD:main
   tags:
     - docker

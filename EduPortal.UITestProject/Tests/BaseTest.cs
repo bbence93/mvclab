@@ -24,7 +24,13 @@ public class BaseTest : IDisposable
             : envUrl; // CI/CD-bõl jön
 
         var options = new ChromeOptions();
-        options.AddArgument("--start-maximized");
+
+        options.AddArgument("--headless"); // Nincs grafikus felület
+        options.AddArgument("--no-sandbox"); // Biztonsági homokozó kikapcsolása (Dockerben kell)
+        options.AddArgument("--disable-dev-shm-usage"); // Memória optimalizálás
+        options.AddArgument("--disable-gpu"); // GPU kikapcsolása
+        options.AddArgument("--window-size=1920,1080");
+
         // Initialize WebDriver (e.g., ChromeDriver, FirefoxDriver, etc.)
         Driver = new ChromeDriver(options);
 
